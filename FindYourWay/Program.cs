@@ -1,4 +1,10 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using FindYourWay.Data;
+using FindYourWay.Controllers;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FindYourWayContext") ?? throw new InvalidOperationException("Connection string 'FindYourWayContext' not found.")));
 
 // Add services to the container.
 
