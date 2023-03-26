@@ -24,7 +24,7 @@ namespace FindYourWay.Controllers
 
             if (id == 0) return BadRequest();
 
-            var user = UserStore._usersList.FirstOrDefault((x) => x.Id == id);
+            var user = UserStore._usersList.FirstOrDefault(x => x.Id == id);
             if (user == null) return NotFound();
 
             return Ok(user);
@@ -50,10 +50,9 @@ namespace FindYourWay.Controllers
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult UpdateUserById(int id, [FromBody]UserDto user)
+        public IActionResult UpdateUserById([FromBody]UserDto user)
         {
-            if (id == 0 || id != user.Id) return BadRequest();
-            if (user == null) return NotFound();
+            if (user == null || user.Id == 0) return BadRequest();
 
             var storedUser = UserStore._usersList.FirstOrDefault(x => x.Id == user.Id);
             if( storedUser == null) return NotFound();
@@ -68,7 +67,7 @@ namespace FindYourWay.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult DeleteUserById(int id) 
+        public IActionResult DeleteUserById(int id)
         {
             if( id == 0 ) return BadRequest();
 
