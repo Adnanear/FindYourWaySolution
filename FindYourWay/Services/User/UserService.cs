@@ -1,48 +1,62 @@
-﻿using FindYourWay.Controllers;
-using FindYourWay.Data.Stores;
-using FindYourWay.Models;
-using FindYourWay.Models.Dto;
+﻿using FindYourWay.Data.Stores;
+using FindYourWay.utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindYourWay.Services.User
 {
-    public class UserService : IUserService
+  public class UserService : IUserService
+  {
+    public ServiceControllerBridge<UserDto> CreateUser(UserDto user)
     {
+      if (user == null) return new(StatusCodes.Status400BadRequest);
 
-        private readonly UserController _controllerInstance;
-        public UserService(UserController sender)
-        {
-            _controllerInstance = sender;
-        }
+      UserStore.usersList.Add(user);
 
-        public Models.Dto.UserDto CreateUser([FromBody] Models.Dto.UserDto user)
-        {
-            throw new NotImplementedException();
-        }
+      UserDto newUser = UserStore.usersList.FirstOrDefault(x => x.Email == user.Email)!;
+      newUser.CreatedAt = DateTime.UtcNow;
+      newUser.UpdatedAt = DateTime.UtcNow;
 
-        public IActionResult DeleteUserById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Models.Dto.UserDto? GetUser(int id)
-        {
-            if (id == 0) return null;
-
-            var user = UserStore.usersList.FirstOrDefault(x => x.Id == id);
-            if (user == null) return null;
-
-            return user;
-        }
-
-        public List<Models.Dto.UserDto> GetUsers()
-        {
-            return UserStore.usersList;
-        }
-
-        public IActionResult UpdateUserById([FromBody] Models.Dto.UserDto user)
-        {
-            throw new NotImplementedException();
-        }
+      return new(StatusCodes.Status201Created, newUser);
     }
+
+    public ServiceControllerBridge<UserDto> DeleteUserById(int id)
+    {
+      if (id is 0) return new(StatusCodes.Status400BadRequest);
+
+      var user = UserStore.usersList.FirstOrDefault(x => x.Id == id);
+      if (user is null) return new(StatusCodes.Status404NotFound);
+
+      UserStore.usersList.Remove(user);
+
+      return new(StatusCodes.Status204NoContent);
+    }
+
+    public ServiceControllerBridge<UserDto> GetUserById(int id)
+    {
+      if (id is 0) return new(StatusCodes.Status400BadRequest);
+
+      var user = UserStore.usersList.FirstOrDefault(x => x.Id == id);
+      if (user is null) return new(StatusCodes.Status404NotFound);
+
+      return new(StatusCodes.Status200OK, user);
+    }
+
+    public ServiceControllerBridge<List<UserDto>> GetUsers()
+    {
+      return new(StatusCodes.Status202Accepted, UserStore.usersList);
+    }
+
+    public ServiceControllerBridge<UserDto> UpdateUserById(UserDto user)
+    {
+      if (user == null || user.Id == 0) return new(StatusCodes.Status400BadRequest);
+
+      var storedUser = UserStore.usersList.FirstOrDefault(x => x.Id == user.Id);
+      if (storedUser == null) return new(StatusCodes.Status404NotFound);
+
+      storedUser.Email = user.Email;
+      storedUser.UpdatedAt = DateTime.UtcNow;
+
+      return new(StatusCodes.Status202Accepted, storedUser);
+    }
+  }
 }

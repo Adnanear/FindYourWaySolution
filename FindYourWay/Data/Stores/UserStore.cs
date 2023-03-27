@@ -1,5 +1,4 @@
-﻿using FindYourWay.Models.Dto;
-
+﻿
 namespace FindYourWay.Data.Stores
 {
     public static class UserStore

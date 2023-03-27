@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using UserDto = FindYourWay.Models.Dto.UserDto;
+﻿using FindYourWay.utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FindYourWay.Services.User
 {
-    public interface IUserService
-    {
+  public interface IUserService
+  {
 
-        public List<UserDto> GetUsers();
-        public UserDto? GetUser(int id);
-        public UserDto CreateUser([FromBody] UserDto user);
-        public IActionResult UpdateUserById([FromBody] UserDto user);
-        public IActionResult DeleteUserById(int id);
-    }
+    ServiceControllerBridge<List<UserDto>> GetUsers();
+    ServiceControllerBridge<UserDto> GetUserById(int id);
+    ServiceControllerBridge<UserDto> CreateUser(UserDto user);
+    ServiceControllerBridge<UserDto> UpdateUserById(UserDto user);
+    ServiceControllerBridge<UserDto> DeleteUserById(int id);
+  }
 }
