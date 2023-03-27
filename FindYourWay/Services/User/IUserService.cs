@@ -6,10 +6,10 @@ namespace FindYourWay.Services.User
   public interface IUserService
   {
 
-    ServiceControllerBridge<List<UserDto>> GetUsers();
-    ServiceControllerBridge<UserDto> GetUserById(int id);
-    ServiceControllerBridge<UserDto> CreateUser(UserDto user);
-    ServiceControllerBridge<UserDto> UpdateUserById(UserDto user);
-    ServiceControllerBridge<UserDto> DeleteUserById(int id);
+    ServiceControllerWrapper<List<UserDto>> GetUsers();
+    ServiceControllerWrapper<UserDto> GetUserById(int id);
+    ServiceControllerWrapper<UserDto> CreateUser(UserDto user);
+    ServiceControllerWrapper<UserDto> UpdateUserById(UserDto user);
+    ServiceControllerWrapper<UserDto> DeleteUserById(int id);
   }
 }

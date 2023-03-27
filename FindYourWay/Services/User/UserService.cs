@@ -6,7 +6,7 @@ namespace FindYourWay.Services.User
 {
   public class UserService : IUserService
   {
-    public ServiceControllerBridge<UserDto> CreateUser(UserDto user)
+    public ServiceControllerWrapper<UserDto> CreateUser(UserDto user)
     {
       if (user == null) return new(StatusCodes.Status400BadRequest);
 
@@ -19,7 +19,7 @@ namespace FindYourWay.Services.User
       return new(StatusCodes.Status201Created, newUser);
     }
 
-    public ServiceControllerBridge<UserDto> DeleteUserById(int id)
+    public ServiceControllerWrapper<UserDto> DeleteUserById(int id)
     {
       if (id is 0) return new(StatusCodes.Status400BadRequest);
 
@@ -31,7 +31,7 @@ namespace FindYourWay.Services.User
       return new(StatusCodes.Status204NoContent);
     }
 
-    public ServiceControllerBridge<UserDto> GetUserById(int id)
+    public ServiceControllerWrapper<UserDto> GetUserById(int id)
     {
       if (id is 0) return new(StatusCodes.Status400BadRequest);
 
@@ -41,12 +41,12 @@ namespace FindYourWay.Services.User
       return new(StatusCodes.Status200OK, user);
     }
 
-    public ServiceControllerBridge<List<UserDto>> GetUsers()
+    public ServiceControllerWrapper<List<UserDto>> GetUsers()
     {
       return new(StatusCodes.Status202Accepted, UserStore.usersList);
     }
 
-    public ServiceControllerBridge<UserDto> UpdateUserById(UserDto user)
+    public ServiceControllerWrapper<UserDto> UpdateUserById(UserDto user)
     {
       if (user == null || user.Id == 0) return new(StatusCodes.Status400BadRequest);
 
