@@ -1,5 +1,6 @@
 ﻿using FindYourWay.Data.Stores;
 using FindYourWay.Models.Dto;
+using FindYourWay.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindYourWay.Controllers
@@ -13,7 +14,7 @@ namespace FindYourWay.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<UserDto>> GetUsers()
         {
-            return Ok(UserStore._usersList);
+            return Ok(_userService.GetUsers());
         }
 
         [HttpGet("{id:int}")]
@@ -21,13 +22,7 @@ namespace FindYourWay.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<UserDto> GetUser(int id) {
-
-            if (id == 0) return BadRequest();
-
-            var user = UserStore._usersList.FirstOrDefault(x => x.Id == id);
-            if (user == null) return NotFound();
-
-            return Ok(user);
+            return Ok(_userService.GetUser(id));
         }
 
         [HttpPost]
@@ -37,8 +32,8 @@ namespace FindYourWay.Controllers
         {
             if( user == null ) return BadRequest();
 
-            UserStore._usersList.Add(user);
-            UserDto newUser = UserStore._usersList.FirstOrDefault(x => x.Email == user.Email)!;
+            UserStore.usersList.Add(user);
+            UserDto newUser = UserStore.usersList.FirstOrDefault(x => x.Email == user.Email)!;
 
             newUser.CreatedAt = DateTime.UtcNow;
             newUser.UpdatedAt = DateTime.UtcNow;
@@ -54,7 +49,7 @@ namespace FindYourWay.Controllers
         {
             if (user == null || user.Id == 0) return BadRequest();
 
-            var storedUser = UserStore._usersList.FirstOrDefault(x => x.Id == user.Id);
+            var storedUser = UserStore.usersList.FirstOrDefault(x => x.Id == user.Id);
             if( storedUser == null) return NotFound();
 
             storedUser.Email = user.Email;
@@ -71,12 +66,13 @@ namespace FindYourWay.Controllers
         {
             if( id == 0 ) return BadRequest();
 
-            var user = UserStore._usersList.FirstOrDefault(x => x.Id == id);
+            var user = UserStore.usersList.FirstOrDefault(x => x.Id == id);
             if( user == null ) return NotFound();
 
-            UserStore._usersList.Remove(user);
+            UserStore.usersList.Remove(user);
 
             return StatusCode(StatusCodes.Status204NoContent, user);
         }
+
     }
 }
