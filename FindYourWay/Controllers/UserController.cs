@@ -17,7 +17,7 @@ namespace FindYourWay.Controllers
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<IEnumerable<UserDto>> GetUsers()
+    public ActionResult<IEnumerable<User>> GetUsers()
     {
       var service = _userService.GetUsers();
       return StatusCode(service.code, service.response);
@@ -27,7 +27,7 @@ namespace FindYourWay.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<UserDto> GetUser(int id)
+    public ActionResult<User> GetUser(int id)
     {
       var service = _userService.GetUserById(id);
 
@@ -40,7 +40,7 @@ namespace FindYourWay.Controllers
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<UserDto> CreateUser([FromBody] UserDto user)
+    public ActionResult<User> CreateUser([FromBody] User user)
     {
       var service = _userService.CreateUser(user);
       return StatusCode(service.code, service.response);
@@ -51,7 +51,7 @@ namespace FindYourWay.Controllers
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<UserDto> UpdateUserById([FromBody] UserDto user)
+    public ActionResult<User> UpdateUserById([FromBody] User user)
     {
       var service = _userService.UpdateUserById(user);
       return StatusCode(service.code, service.response);

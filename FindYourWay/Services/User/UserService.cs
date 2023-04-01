@@ -6,20 +6,20 @@ namespace FindYourWay.Services.User
 {
   public class UserService : IUserService
   {
-    public ServiceControllerWrapper<UserDto> CreateUser(UserDto user)
+    public ServiceControllerWrapper<Models.User> CreateUser(Models.User user)
     {
       if (user == null) return new(StatusCodes.Status400BadRequest);
 
       UserStore.usersList.Add(user);
 
-      UserDto newUser = UserStore.usersList.FirstOrDefault(x => x.Email == user.Email)!;
+      Models.User newUser = UserStore.usersList.FirstOrDefault(x => x.Email == user.Email)!;
       newUser.CreatedAt = DateTime.UtcNow;
       newUser.UpdatedAt = DateTime.UtcNow;
 
       return new(StatusCodes.Status201Created, newUser);
     }
 
-    public ServiceControllerWrapper<UserDto> DeleteUserById(int id)
+    public ServiceControllerWrapper<Models.User> DeleteUserById(int id)
     {
       if (id is 0) return new(StatusCodes.Status400BadRequest);
 
@@ -31,7 +31,7 @@ namespace FindYourWay.Services.User
       return new(StatusCodes.Status204NoContent);
     }
 
-    public ServiceControllerWrapper<UserDto> GetUserById(int id)
+    public ServiceControllerWrapper<Models.User> GetUserById(int id)
     {
       if (id is 0) return new(StatusCodes.Status400BadRequest);
 
@@ -41,12 +41,12 @@ namespace FindYourWay.Services.User
       return new(StatusCodes.Status200OK, user);
     }
 
-    public ServiceControllerWrapper<List<UserDto>> GetUsers()
+    public ServiceControllerWrapper<List<Models.User>> GetUsers()
     {
       return new(StatusCodes.Status202Accepted, UserStore.usersList);
     }
 
-    public ServiceControllerWrapper<UserDto> UpdateUserById(UserDto user)
+    public ServiceControllerWrapper<Models.User> UpdateUserById(Models.User user)
     {
       if (user == null || user.Id == 0) return new(StatusCodes.Status400BadRequest);
 
