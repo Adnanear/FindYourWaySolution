@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Stores\" />
+    <Folder Include="Services\Order\" />
+    <Folder Include="Services\Product\" />
   </ItemGroup>
 
 </Project>
