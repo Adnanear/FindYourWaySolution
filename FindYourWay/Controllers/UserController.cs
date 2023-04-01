@@ -17,9 +17,9 @@ namespace FindYourWay.Controllers
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<IEnumerable<User>> GetUsers()
+    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
-      var service = _userService.GetUsers();
+      var service = await _userService.GetUsers();
       return StatusCode(service.code, service.response);
     }
 
@@ -27,9 +27,9 @@ namespace FindYourWay.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<User> GetUser(int id)
+    public async Task<ActionResult<User>> GetUser(int id)
     {
-      var service = _userService.GetUserById(id);
+      var service = await _userService.GetUserById(id);
 
       if (service.code is StatusCodes.Status404NotFound) return NotFound();
       if (service.code is StatusCodes.Status400BadRequest) return BadRequest();
@@ -40,9 +40,9 @@ namespace FindYourWay.Controllers
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<User> CreateUser([FromBody] User user)
+    public async Task<ActionResult<User>> CreateUser([FromBody] User user)
     {
-      var service = _userService.CreateUser(user);
+      var service = await _userService.CreateUser(user);
       return StatusCode(service.code, service.response);
     }
 
@@ -51,9 +51,9 @@ namespace FindYourWay.Controllers
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<User> UpdateUserById([FromBody] User user)
+    public async Task<ActionResult<User>> UpdateUserById(int id, [FromBody] User user)
     {
-      var service = _userService.UpdateUserById(user);
+      var service = await _userService.UpdateUserById(id, user);
       return StatusCode(service.code, service.response);
     }
 
@@ -61,9 +61,9 @@ namespace FindYourWay.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult DeleteUserById(int id)
+    public async Task<IActionResult> DeleteUserById(int id)
     {
-      var service = _userService.DeleteUserById(id);
+      var service = await _userService.DeleteUserById(id);
       return StatusCode(service.code, service.response);
     }
 

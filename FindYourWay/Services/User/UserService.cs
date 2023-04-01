@@ -1,62 +1,73 @@
-﻿using FindYourWay.Data.Stores;
+﻿using FindYourWay.Data;
+using FindYourWay.Data.Stores;
 using FindYourWay.utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FindYourWay.Services.User
 {
-  public class UserService : IUserService
-  {
-    public ServiceControllerWrapper<Models.User> CreateUser(Models.User user)
+    public class UserService : IUserService
     {
-      if (user == null) return new(StatusCodes.Status400BadRequest);
+        private readonly AppDbContext _context;
+        public UserService(AppDbContext context)
+        {
+            _context = context;
+        }
 
-      UserStore.usersList.Add(user);
+        public async Task<ServiceControllerWrapper<Models.User>> CreateUser(Models.User user)
+        {
+            if (user is null || user.Id is 0) return new(StatusCodes.Status400BadRequest);
 
-      Models.User newUser = UserStore.usersList.FirstOrDefault(x => x.Email == user.Email)!;
-      newUser.CreatedAt = DateTime.UtcNow;
-      newUser.UpdatedAt = DateTime.UtcNow;
+            Models.User newUser = new()
+            {
+                Email = user.Email,
+                Password = user.Password,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+            };
 
-      return new(StatusCodes.Status201Created, newUser);
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+            return new(StatusCodes.Status201Created, newUser);
+        }
+
+        public async Task<ServiceControllerWrapper<Models.User>> DeleteUserById(int id)
+        {
+            var targetUser = await _context.Users.FindAsync(id);
+            if (targetUser is null) return new(StatusCodes.Status404NotFound);
+
+            _context.Users.Remove(targetUser);
+
+            await _context.SaveChangesAsync();
+            return new(StatusCodes.Status202Accepted);
+        }
+
+        public async Task<ServiceControllerWrapper<Models.User>> GetUserById(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user is null) return new(StatusCodes.Status404NotFound);
+
+            return new(StatusCodes.Status200OK, user);
+        }
+
+        public async Task<ServiceControllerWrapper<List<Models.User>>> GetUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+            return new(StatusCodes.Status200OK, users);
+        }
+
+        public async Task<ServiceControllerWrapper<Models.User>> UpdateUserById(int id, Models.User user)
+        {
+            var targetUser = await _context.Users.FindAsync(id);
+            if (targetUser is null) return new(StatusCodes.Status404NotFound);
+
+            targetUser.Email = user.Email;
+            targetUser.Password = user.Password;
+            targetUser.UpdatedAt = DateTime.UtcNow;
+            
+            await _context.SaveChangesAsync();
+            return new(StatusCodes.Status202Accepted);
+        }
     }
-
-    public ServiceControllerWrapper<Models.User> DeleteUserById(int id)
-    {
-      if (id is 0) return new(StatusCodes.Status400BadRequest);
-
-      var user = UserStore.usersList.FirstOrDefault(x => x.Id == id);
-      if (user is null) return new(StatusCodes.Status404NotFound);
-
-      UserStore.usersList.Remove(user);
-
-      return new(StatusCodes.Status204NoContent);
-    }
-
-    public ServiceControllerWrapper<Models.User> GetUserById(int id)
-    {
-      if (id is 0) return new(StatusCodes.Status400BadRequest);
-
-      var user = UserStore.usersList.FirstOrDefault(x => x.Id == id);
-      if (user is null) return new(StatusCodes.Status404NotFound);
-
-      return new(StatusCodes.Status200OK, user);
-    }
-
-    public ServiceControllerWrapper<List<Models.User>> GetUsers()
-    {
-      return new(StatusCodes.Status202Accepted, UserStore.usersList);
-    }
-
-    public ServiceControllerWrapper<Models.User> UpdateUserById(Models.User user)
-    {
-      if (user == null || user.Id == 0) return new(StatusCodes.Status400BadRequest);
-
-      var storedUser = UserStore.usersList.FirstOrDefault(x => x.Id == user.Id);
-      if (storedUser == null) return new(StatusCodes.Status404NotFound);
-
-      storedUser.Email = user.Email;
-      storedUser.UpdatedAt = DateTime.UtcNow;
-
-      return new(StatusCodes.Status202Accepted, storedUser);
-    }
-  }
 }
+
