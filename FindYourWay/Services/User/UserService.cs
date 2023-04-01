@@ -1,4 +1,5 @@
 ﻿using FindYourWay.Data;
+using FindYourWay.Models.Dto;
 using FindYourWay.utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ namespace FindYourWay.Services.User
             _context = context;
         }
 
-        public async Task<ServiceControllerWrapper<Models.User>> CreateUser(Models.User user)
+        public async Task<ServiceControllerWrapper<Models.User>> CreateUser(UserDto user)
         {
             if (user is null || user.Id is 0) return new(StatusCodes.Status400BadRequest);
 
@@ -54,7 +55,7 @@ namespace FindYourWay.Services.User
             return new(StatusCodes.Status200OK, users);
         }
 
-        public async Task<ServiceControllerWrapper<Models.User>> UpdateUserById(int id, Models.User user)
+        public async Task<ServiceControllerWrapper<Models.User>> UpdateUserById(int id, UserDto user)
         {
             var targetUser = await _context.Users.FindAsync(id);
             if (targetUser is null) return new(StatusCodes.Status404NotFound);

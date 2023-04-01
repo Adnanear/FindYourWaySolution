@@ -2,18 +2,16 @@
 {
   public class User
   {
+        public int Id { get; set; }
 
-    public int Id { get; set; }
+        public string? Email { get; set; }
 
-        public string? Email { get; set; } = null;
+        public string? Password { get; set; }
 
-        public string? Password { get; set; } = null;
+        public DateTime? CreatedAt { get; set; }
 
-        public DateTime? CreatedAt { get; set; } = null;
+        public DateTime? UpdatedAt { get; set; }
 
-        public DateTime? UpdatedAt { get; set; } = null;
-
-        public DateTime? DeletedAt { get; set; } = null;
-
+        public DateTime? DeletedAt { get; set; }
   }
 }

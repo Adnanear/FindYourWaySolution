@@ -8,7 +8,10 @@ namespace FindYourWay.Models.Dto
 
     [Required]
     [EmailAddress]
-    public string? Email { get; set; } = null;
+    public string? Email { get; set; }
+
+    [MinLength(1)]
+    public string? Password { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
