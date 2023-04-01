@@ -1,6 +1,4 @@
-﻿using FindYourWay.Data.Stores;
-using FindYourWay.Services.User;
-using FindYourWay.utils;
+﻿using FindYourWay.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindYourWay.Controllers

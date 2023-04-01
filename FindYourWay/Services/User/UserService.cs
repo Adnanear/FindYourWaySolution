@@ -1,7 +1,5 @@
 ﻿using FindYourWay.Data;
-using FindYourWay.Data.Stores;
 using FindYourWay.utils;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FindYourWay.Services.User
