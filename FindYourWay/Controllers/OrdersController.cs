@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using FindYourWay.Data;
 using FindYourWay.Models;
 using FindYourWay.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FindYourWay.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly AppDbContext _context;
