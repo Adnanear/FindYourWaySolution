@@ -7,7 +7,7 @@ namespace FindYourWay.Models
     {
         public int Id { get; set; }
 
-        [ForeignKey(nameof(Models.User))]
+        [ForeignKey(nameof(Models.Account))]
         public int BuyerId { get; set; }
 
         [ForeignKey(nameof(Models.Product))]

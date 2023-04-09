@@ -5,14 +5,14 @@ namespace FindYourWay.Services.User
 {
   public interface IUserService
   {
-    Task<ServiceControllerWrapper<List<Models.User>>> GetUsers();
+    Task<ServiceControllerWrapper<List<Models.Account>>> GetUsers();
 
-    Task<ServiceControllerWrapper<Models.User>> GetUserById(int id);
+    Task<ServiceControllerWrapper<Models.Account>> GetUserById(int id);
 
-    Task<ServiceControllerWrapper<Models.User>> CreateUser(UserDto user);
+    Task<ServiceControllerWrapper<Models.Account>> CreateUser(AccountDto user);
 
-    Task<ServiceControllerWrapper<Models.User>> UpdateUserById(int id, UserDto user);
+    Task<ServiceControllerWrapper<Models.Account>> UpdateUserById(int id, AccountDto user);
 
-    Task<ServiceControllerWrapper<Models.User>> DeleteUserById(int id);
+    Task<ServiceControllerWrapper<Models.Account>> DeleteUserById(int id);
   }
 }

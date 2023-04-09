@@ -48,7 +48,7 @@ namespace FindYourWay.Controllers
         public async Task<IActionResult> PutOrder(int id, OrderDto order)
         {
             var targetOrder = await _context.Orders.FindAsync(id);
-            var buyer = await _context.Users.FindAsync(order.BuyerId);
+            var buyer = await _context.Accounts.FindAsync(order.BuyerId);
             var product = await _context.Products.FindAsync(order.ProductId);
             if(targetOrder is null || buyer is null || product is null) return NotFound();
 
@@ -67,7 +67,7 @@ namespace FindYourWay.Controllers
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(OrderDto order)
         {
-            var buyer = await _context.Users.FindAsync(order.BuyerId);
+            var buyer = await _context.Accounts.FindAsync(order.BuyerId);
             var product = await _context.Products.FindAsync(order.ProductId);
             if (buyer is null || product is null) return NotFound();
 

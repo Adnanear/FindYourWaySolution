@@ -13,11 +13,11 @@ namespace FindYourWay.Services.User
             _context = context;
         }
 
-        public async Task<ServiceControllerWrapper<Models.User>> CreateUser(UserDto user)
+        public async Task<ServiceControllerWrapper<Models.Account>> CreateUser(AccountDto user)
         {
             if (user is null || user.Id is 0) return new(StatusCodes.Status400BadRequest);
 
-            Models.User newUser = new()
+            Models.Account newUser = new()
             {
                 Email = user.Email,
                 Password = user.Password,
@@ -25,39 +25,39 @@ namespace FindYourWay.Services.User
                 UpdatedAt = DateTime.UtcNow,
             };
 
-            _context.Users.Add(newUser);
+            _context.Accounts.Add(newUser);
             await _context.SaveChangesAsync();
             return new(StatusCodes.Status201Created, newUser);
         }
 
-        public async Task<ServiceControllerWrapper<Models.User>> DeleteUserById(int id)
+        public async Task<ServiceControllerWrapper<Models.Account>> DeleteUserById(int id)
         {
-            var targetUser = await _context.Users.FindAsync(id);
+            var targetUser = await _context.Accounts.FindAsync(id);
             if (targetUser is null) return new(StatusCodes.Status404NotFound);
 
-            _context.Users.Remove(targetUser);
+            _context.Accounts.Remove(targetUser);
 
             await _context.SaveChangesAsync();
             return new(StatusCodes.Status202Accepted);
         }
 
-        public async Task<ServiceControllerWrapper<Models.User>> GetUserById(int id)
+        public async Task<ServiceControllerWrapper<Models.Account>> GetUserById(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Accounts.FindAsync(id);
             if (user is null) return new(StatusCodes.Status404NotFound);
 
             return new(StatusCodes.Status200OK, user);
         }
 
-        public async Task<ServiceControllerWrapper<List<Models.User>>> GetUsers()
+        public async Task<ServiceControllerWrapper<List<Models.Account>>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Accounts.ToListAsync();
             return new(StatusCodes.Status200OK, users);
         }
 
-        public async Task<ServiceControllerWrapper<Models.User>> UpdateUserById(int id, UserDto user)
+        public async Task<ServiceControllerWrapper<Models.Account>> UpdateUserById(int id, AccountDto user)
         {
-            var targetUser = await _context.Users.FindAsync(id);
+            var targetUser = await _context.Accounts.FindAsync(id);
             if (targetUser is null) return new(StatusCodes.Status404NotFound);
 
             targetUser.Email = user.Email;

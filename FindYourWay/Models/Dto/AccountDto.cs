@@ -2,7 +2,7 @@
 
 namespace FindYourWay.Models.Dto
 {
-  public class UserDto
+  public class AccountDto
   {
     public int Id { get; set; }
 
