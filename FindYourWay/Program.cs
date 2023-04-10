@@ -5,6 +5,7 @@ using FindYourWay.Data;
 using FindYourWay.Services.User;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using FindYourWay.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -32,8 +33,8 @@ builder.Services.Configure<SwaggerGeneratorOptions>(options =>
     options.InferSecuritySchemes = true;
 });
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+//builder.Services.AddAuthorization();
+//builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -58,7 +59,8 @@ app.UseHttpsRedirection();
 
 app.UseCors("corsapp");
 
-app.UseAuthorization();
+//app.UseAuthorization();
+app.UseAuthenticationMiddleware();
 
 app.MapControllers();
 
