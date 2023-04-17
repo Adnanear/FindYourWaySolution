@@ -13,35 +13,35 @@ namespace FindYourWay.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ServicesController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public ProductsController(AppDbContext context)
+        public ServicesController(AppDbContext context)
         {
             _context = context;
         }
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Service>>> GetProducts()
         {
-          if (_context.Products == null)
+          if (_context.Services == null)
           {
               return NotFound();
           }
-            return await _context.Products.ToListAsync();
+            return await _context.Services.ToListAsync();
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Service>> GetProduct(int id)
         {
-          if (_context.Products == null)
+          if (_context.Services == null)
           {
               return NotFound();
           }
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Services.FindAsync(id);
 
             if (product == null)
             {
@@ -54,7 +54,7 @@ namespace FindYourWay.Controllers
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutProduct(int id, Service product)
         {
             if (id != product.Id)
             {
@@ -85,13 +85,13 @@ namespace FindYourWay.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Service>> PostProduct(Service product)
         {
-          if (_context.Products == null)
+          if (_context.Services == null)
           {
               return Problem("Entity set 'AppDbContext.Products'  is null.");
           }
-            _context.Products.Add(product);
+            _context.Services.Add(product);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
@@ -101,17 +101,17 @@ namespace FindYourWay.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            if (_context.Products == null)
+            if (_context.Services == null)
             {
                 return NotFound();
             }
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Services.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(product);
+            _context.Services.Remove(product);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -119,7 +119,7 @@ namespace FindYourWay.Controllers
 
         private bool ProductExists(int id)
         {
-            return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Services?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

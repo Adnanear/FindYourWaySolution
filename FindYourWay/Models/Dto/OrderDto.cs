@@ -8,18 +8,14 @@ namespace FindYourWay.Models.Dto
         public int Id { get; set; }
 
         [Required]
-        public int BuyerId { get; set; }
+        public int ClientId { get; set; }
 
         [Required]
-        public int ProductId { get; set; }
-
-        [Required]
-        [Range(1, 100, ErrorMessage = "Quantity must be between 1 to 100.")]
-        public int Quantity { get; set; }
+        public int ServiceId { get; set; }
 
         [Required]
         [Range(0, 3)]
-        public int OrderStatus { get; set; }
+        public int Status { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 

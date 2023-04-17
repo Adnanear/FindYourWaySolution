@@ -23,7 +23,7 @@
   <ItemGroup>
     <Folder Include="Services\Authentication\" />
     <Folder Include="Services\Order\" />
-    <Folder Include="Services\Product\" />
+    <Folder Include="Services\Service\" />
   </ItemGroup>
 
 </Project>

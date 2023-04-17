@@ -1,6 +1,6 @@
 ﻿namespace FindYourWay.Models
 {
-    public class Product
+    public class Service
     {
 
         public int Id { get; set; }
@@ -12,8 +12,6 @@
         public float Price { get; set; }
 
         public bool Available { get; set; }
-
-        public string? Image { get; set; }
 
     }
 }

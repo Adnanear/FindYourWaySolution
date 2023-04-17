@@ -2,7 +2,7 @@
 
 namespace FindYourWay.Models.Dto
 {
-    public class ProductDto
+    public class ServiceDto
     {
 
         public int Id { get; set; }
@@ -17,8 +17,5 @@ namespace FindYourWay.Models.Dto
         public float Price { get; set; }
 
         public bool Available { get; set; }
-
-        [Url(ErrorMessage = "Product image must be a valid url.")]
-        public string? Image { get; set; }
     }
 }

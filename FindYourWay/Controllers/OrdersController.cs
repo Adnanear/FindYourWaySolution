@@ -14,7 +14,6 @@ namespace FindYourWay.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -48,14 +47,13 @@ namespace FindYourWay.Controllers
         public async Task<IActionResult> PutOrder(int id, OrderDto order)
         {
             var targetOrder = await _context.Orders.FindAsync(id);
-            var buyer = await _context.Accounts.FindAsync(order.BuyerId);
-            var product = await _context.Products.FindAsync(order.ProductId);
+            var buyer = await _context.Accounts.FindAsync(order.ClientId);
+            var product = await _context.Services.FindAsync(order.ServiceId);
             if(targetOrder is null || buyer is null || product is null) return NotFound();
 
-            targetOrder.BuyerId = order.BuyerId;
-            targetOrder.ProductId = order.ProductId;
-            targetOrder.Quantity = order.Quantity;
-            targetOrder.Status = (Enums.OrderStatus)order.OrderStatus;
+            targetOrder.ClientId = order.ClientId;
+            targetOrder.ServiceId = order.ServiceId;
+            targetOrder.Status = (Enums.OrderStatus)order.Status;
             targetOrder.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
@@ -67,14 +65,15 @@ namespace FindYourWay.Controllers
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(OrderDto order)
         {
-            var buyer = await _context.Accounts.FindAsync(order.BuyerId);
-            var product = await _context.Products.FindAsync(order.ProductId);
+            var buyer = await _context.Accounts.FindAsync(order.ClientId);
+            var product = await _context.Services.FindAsync(order.ServiceId);
             if (buyer is null || product is null) return NotFound();
 
             Order newOrder = new()
             {
-                Quantity = order.Quantity,
-                Status = 0,
+                ClientId = order.ClientId,
+                ServiceId = order.ServiceId,
+                Status = (Enums.OrderStatus)order.Status,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };

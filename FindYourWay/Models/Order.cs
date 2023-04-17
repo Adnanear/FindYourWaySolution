@@ -7,13 +7,11 @@ namespace FindYourWay.Models
     {
         public int Id { get; set; }
 
-        [ForeignKey(nameof(Models.Account))]
-        public int BuyerId { get; set; }
+        [ForeignKey(nameof(Models.Client))]
+        public int ClientId { get; set; }
 
-        [ForeignKey(nameof(Models.Product))]
-        public int ProductId { get; set; }
-
-        public int Quantity { get; set; }
+        [ForeignKey(nameof(Models.Service))]
+        public int ServiceId { get; set; }
 
         public OrderStatus Status { get; set; }
 

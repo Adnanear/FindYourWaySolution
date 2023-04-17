@@ -13,6 +13,9 @@ namespace FindYourWay.Models.Dto
 
         public string? Address { get; set; } = null;
 
+        [EmailAddress]
+        public string? Email { get; set; }
+
         [Phone]
         public string? PhoneNumber { get; set; } = null;
 
