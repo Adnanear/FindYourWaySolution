@@ -7,9 +7,11 @@ namespace FindYourWay.Models
     {
         public int Id { get; set; }
 
+        // We declare the field as foreign key to create association with `Client`
         [ForeignKey(nameof(Models.Client))]
         public int ClientId { get; set; }
 
+        // We declare the field as foreign key to create association with `Service`
         [ForeignKey(nameof(Models.Service))]
         public int ServiceId { get; set; }
 

@@ -3,6 +3,7 @@ using FindYourWay.Models.Dto;
 
 namespace FindYourWay.Services.User
 {
+    // This is a simple interface defining `UserService` methods
   public interface IUserService
   {
     Task<ServiceControllerWrapper<List<Models.Account>>> GetUsers();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FindYourWay.Controllers
 {
+    // Define route at `/api/{ControllerName}`
     [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -20,6 +21,8 @@ namespace FindYourWay.Controllers
         public async Task<ActionResult<IEnumerable<Account>>> GetUsers()
         {
             var service = await _service.GetUsers();
+
+            // Returns a list of available users
             return StatusCode(service.code, service.response);
         }
 
